@@ -60,7 +60,7 @@
       <div class="company-carrosel">
         <div class="companies ml-5 flex justify-around px-2 company-item">
           <div class="company mr-[2.25rem]" *ngFor="let actor of cast">
-            <img [src]="actor?.profile_path ? 'https://image.tmdb.org/t/p/w500' + actor?.profile_path : 'https://via.placeholder.com/550'" alt="{{ actor?.original_name }}" />
+            <img [src]="actor?.profile_path ? 'https://image.tmdb.org/t/p/w500' + actor?.profile_path : 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'" alt="{{ actor?.original_name }}" />
             <p><strong>{{ actor?.original_name }}</strong></p>
             <span>{{ truncateContent(actor?.character, 30)  }}</span>
           </div>
@@ -99,8 +99,8 @@
         </div>
       </div>
 
-      <div *ngIf="reviews.length === 0">
-        <div class="comments-card justify-center flex items-center h-40 w-96 ml-5" style="margin-left: 20px !important; width: 375px !important;">
+      <div [ngStyle]="{'padding': reviews.length > 0 ? '0px' : '20px'}" *ngIf="reviews.length === 0">
+        <div class="comments-card justify-center flex items-center h-40 w-96 ml-5" [ngStyle]="{'margin-left': reviews.length > 0 ? '20px' : '0px', 'width': reviews.length > 0 ? '375px' : '100%'}">
           <i-feather name="frown" class="fill mr-2"></i-feather>
           <span>Não há comentários disponíveis!</span>
         </div>

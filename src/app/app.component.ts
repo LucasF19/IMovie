@@ -4,8 +4,7 @@ import { AuthService } from './modules/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './app.component.html'
 })
 
 export class AppComponent implements OnInit {
@@ -15,7 +14,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.authService.getAuthState().subscribe(user => {
       if (!user){
-        this.router.navigate(['/login']);
+        // this.router.navigate(['/login']);
        }
     });
   }

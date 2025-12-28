@@ -1,7 +1,7 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { convertRuntime } from '../../formatters/currect-hour';
+import { convertRuntime } from '../../../../shared/formatters/currect-hour';
 import { FavoriteService } from 'src/app/modules/favorites/services/favorites.service';
 
 @Component({

@@ -1,11 +1,11 @@
 <div *ngIf="!isLoading">
   <div>
     <div *ngFor="let movie of movies" class="break-words">
-      <div class="flex justify-between">
+      <div class="flex justify-between items-center">
         <div class="rounded-[10px] mb-3">
           <h2 class="text-white text-[20px] pt-2">{{movie.title}}</h2>
         </div>
-        <div class="p-2 rounded-[10px] bg-[#e72f2f] mb-3" (click)="deleteFavorite(movie)" >
+        <div class="p-2 rounded-[10px] bg-[#e72f2f] mb-3" (click)="deleteFavorite(movie)">
           <i-feather name="trash-2" class="trash-style"></i-feather>
         </div>
       </div>

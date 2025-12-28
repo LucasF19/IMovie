@@ -1,0 +1,23 @@
+<div class="modal">
+    <div class="modal-content py-5">
+      <div class="flex justify-between items-center px-[20px] pb-5">
+        <h2>Onde assistir</h2>
+        <span class="close-button" (click)="onClose()">&times;</span>
+      </div>
+
+      <div class="overflow-scroll max-h-[500px] px-[20px] pb-5">
+        <div *ngIf="!isEmpty">
+          <div *ngIf="providers">
+            <provider-component [typeStreaming]="'Assinar'" [titleMovie]="movieName" [provider]="providers.flatrate" *ngIf="providers.flatrate"/>
+            <provider-component [typeStreaming]="'Comprar'" [titleMovie]="movieName" [provider]="providers.buy" *ngIf="providers.buy"/>
+            <provider-component [typeStreaming]="'Alugar'" [titleMovie]="movieName" [provider]="providers.rent" *ngIf="providers.rent"/>
+          </div>
+        </div>
+  
+        <div *ngIf="isEmpty" class="flex items-center justify-center bg-[#313982] rounded-full p-3">
+          <i-feather name="Frown" class="mr-3"></i-feather>
+          <span class="">Plataformas não disponíveis!</span>
+        </div>
+      </div>
+    </div>
+  </div>

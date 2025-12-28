@@ -3,11 +3,12 @@
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-gray-100 font-light">
         Olá, <br />
-        <span class="font-bold">{{ nomeUsuario }}</span>
+        <!-- <span class="font-bold">{{ nomeUsuario }}</span> -->
+        <span class="font-bold">Administrador</span>
       </h2>
       <img
         class="w-11 h-11 rounded-full"
-        src="https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"
+        src="../../../../../assets/icon/cat-avatar.png"
         alt="Rounded avatar"
       />
     </div>
@@ -24,7 +25,7 @@
           style="background: bottom"
         >
           <svg
-            class="w-4 h-4 text-gray-500 dark:text-gray-400 bg-white"
+            class="w-4 h-4 text-gray-500 dark:text-gray-400 bg-transparent"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -47,7 +48,7 @@
           [formControl]="searchControl"
         />
         <div *ngIf="searching">
-          <div class="absolute bg-[#1e2035] mr-5 w-full z-10 rounded-[10px] mt-3 p-3 pb-0 h-[500px] overflow-scroll">
+          <div class="absolute bg-[#1e2035] mr-5 w-full z-10 rounded-[10px] mt-3 p-3 pb-0 max-h-[500px] overflow-scroll">
             <div *ngIf="!emptyFilter">
               <div *ngFor="let filtered of filteredMovies" (click)="movieSelectSearch(filtered.id)" class="flex pb-4">
                 <img
@@ -85,13 +86,12 @@
   
   <footer class="px-5 py-7 bg-black">
     <nav class="flex justify-center mb-5">
-      <div class="icon-round"><a href="#home"><i-feather name="github"></i-feather></a></div>
-      <div class="icon-round"><a href="#home"><i-feather name="instagram"></i-feather></a></div>
-      <div class="icon-round"><a href="#home"><i-feather name="Linkedin"></i-feather></a></div>
+      <div class="icon-round"><a target="_blank" href="https://github.com/LucasF19/IMovie"><i-feather name="github"></i-feather></a></div>
+      <div class="icon-round"><a target="_blank" href="https://www.linkedin.com/in/lucas-maia-55728a233/"><i-feather name="Linkedin"></i-feather></a></div>
     </nav>
     <p class="font-bold mb-1 text-xs">
       Termos de uso - Politica de privacidade
     </p>
-    <p class="text-xs">&copy; 2024 Grupo bacon</p>
+    <p class="text-xs">&copy; 2024 - Lucas Maia</p>
   </footer>
 </div>
