@@ -94,7 +94,40 @@ A proposta é centralizar informações relevantes sobre cada título, facilitan
 
 ---
 
-## Tecnologias Utilizadas
+## Inicialização do Projeto
+
+### Pré-requisitos
+
+Antes de iniciar, certifique-se de ter instalado:
+
+<ul>
+  <li>Node.js (versão LTS recomendada)</li>
+  <li>NPM</li>
+</ul>
+
+---
+
+### Passo a passo
+
+<p>1. Acesse a pasta raiz do projeto:</p>
+
+```bash
+cd IMovie
+```
+
+<p>2. Instale as dependências:</p>
+
+```bash
+npm install --legacy-peer-deps
+```
+<p>3. Inicie a aplicação:</p>
+
+```bash
+npm run start
+```
+<p> Após a inicialização, o aplicativo estará disponível no navegador em ambiente de desenvolvimento. <br/> <br/> 🔐Acesso - <strong>email: admin@admin.com || senha: 123123</strong></p>
+
+## ⚙️ Tecnologias Utilizadas
 
 <ul>
   <li>Angular</li>
@@ -106,7 +139,7 @@ A proposta é centralizar informações relevantes sobre cada título, facilitan
 
 ---
 
-## Observações
+## ⚠️ Observações
 
 <p>
 Este projeto tem finalidade educacional e demonstrativa.  
