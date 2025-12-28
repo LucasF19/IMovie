@@ -1,21 +1,9 @@
 <h1 align="start">🎬 IMovie</h1>
 
-<p align="start">
-  Aplicativo mobile desenvolvido com <strong>Ionic</strong>, focado na descoberta de novos filmes e séries.
-</p>
-
-<p align="start">
-  <em>O aplicativo não realiza streaming.</em> Seu objetivo é apresentar informações detalhadas, descrições técnicas e permitir a organização de títulos favoritos.
-</p>
-
-<hr/>
-
-## Visão Geral
-
 O **IMovie** é um aplicativo mobile que ajuda usuários a explorarem filmes e séries de forma simples e intuitiva.  
 A proposta é centralizar informações relevantes sobre cada título, facilitando a descoberta de novos conteúdos e a criação de uma lista personalizada de favoritos.
 
----
+<hr/>
 
 ## Funcionalidades
 
