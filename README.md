@@ -7,38 +7,28 @@ A proposta é centralizar informações relevantes sobre cada título, facilitan
 
 ## Telas do Aplicativo
 
-### Login e Cadastro
-
+<h2 align="center">Login e Cadastro</h2>
 <p align="center">
   <img width="260" height="821" alt="login" src="https://github.com/user-attachments/assets/889ad57d-5df7-466e-9119-c59502d30340" />
   <img width="256" height="821" alt="cadastro" src="https://github.com/user-attachments/assets/7098d652-e832-4c5d-89f7-701d4ff49453" />
 </p>
 
----
-
-### Home
-
+<h2 align="center">Home</h2>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/4a9055b5-3271-40d5-837f-ac860df87a61" width="260"/>
   <img height="820" alt="image" src="https://github.com/user-attachments/assets/4b9d34bd-1c57-4cc8-bcce-9c2dc6e5a91a" width="257" />
-
-
 </p>
 
----
-
-### Detalhes do Filme
-
+<h2 align="center">Detalhes do filme</h2>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/789e7f70-1789-4685-a980-86abc43a3ad4" width="240"/>
   <img src="https://github.com/user-attachments/assets/c6795593-91d9-4948-9543-0c9d3fa028f9" width="240"/>
   <img src="https://github.com/user-attachments/assets/f66493bd-7120-4ebc-9d8b-dcc1e276cf43" width="240"/>
+  <img src="https://github.com/user-attachments/assets/cbf29f66-8a7d-4b51-bbda-be2c6668b8b6" width="240" />
+
 </p>
 
----
-
-### Favoritos
-
+<h2 align="center">Favoritos</h2>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/82eb03a2-c4e6-4279-976e-b888ae3d4925" width="260"/>
 </p>
