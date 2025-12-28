@@ -5,43 +5,6 @@ A proposta é centralizar informações relevantes sobre cada título, facilitan
 
 <hr/>
 
-## Funcionalidades
-
-<ul>
-  <li><strong>Autenticação</strong>
-    <ul>
-      <li>Login de usuário</li>
-      <li>Cadastro de nova conta</li>
-    </ul>
-  </li>
-
-  <li><strong>Página Inicial</strong>
-    <ul>
-      <li>Listagem de filmes e séries</li>
-      <li>Títulos em destaque</li>
-      <li>Sugestões baseadas em popularidade</li>
-    </ul>
-  </li>
-
-  <li><strong>Detalhes do Filme/Série</strong>
-    <ul>
-      <li>Sinopse</li>
-      <li>Gêneros</li>
-      <li>Avaliação</li>
-      <li>Informações técnicas</li>
-    </ul>
-  </li>
-
-  <li><strong>Favoritos</strong>
-    <ul>
-      <li>Adicionar e remover títulos</li>
-      <li>Lista personalizada por usuário</li>
-    </ul>
-  </li>
-</ul>
-
----
-
 ## Telas do Aplicativo
 
 ### Login e Cadastro
