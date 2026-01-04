@@ -19,18 +19,13 @@ export class AuthService {
   ) {}
 
   async login(email: string, password: string): Promise<void> {
-    if(email === 'admin@admin.com' && password === '123123') {
+    try {
+      await this.afAuth.signInWithEmailAndPassword(email, password);
       this.router.navigate(['/home']);
-    } else {
+    } catch (error) {
+      console.error('Erro ao fazer login: ', error);
       throw new Error('Email ou senha inválidos.');
     }
-    // try {
-    //   await this.afAuth.signInWithEmailAndPassword(email, password);
-    //   this.router.navigate(['/home']);
-    // } catch (error) {
-    //   console.error('Erro ao fazer login: ', error);
-    //   throw new Error('Email ou senha inválidos.');
-    // }
   }
 
   async logout(): Promise<void> {
