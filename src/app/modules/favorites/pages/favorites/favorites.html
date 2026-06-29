@@ -1,17 +1,25 @@
-<div class="background-content pb-[70px] px-5 pt-7 min-h-[100vh]">
-  <div>
-    <div class="flex">
-      <i-feather name="Bookmark" class="bookmark-style mr-2"></i-feather>
-      <h1 class="mb-4 text-white text-[28px]">Favoritos</h1>
-    </div>
-    <hr class="border-solid border-2 border-[#3d4171] mb-5 w-[75%]">
-    <div>
-      <favorite-card [isLoading]="isLoading" [movies]="favoriteMovies"></favorite-card>
-    </div>
+<div class="favorites-page">
 
-    <div *ngIf="favoriteMovies.length === 0" class="text-white flex items-center justify-center py-3 px-5 bg-[#191b2e] rounded-full">
-      <i-feather name="heart" class="mr-5 heart-style"></i-feather>
-      <h3 class="text-[#e1e1e1]">Você ainda não adicionou nenhum filme.</h3>
+  <div class="favorites-header">
+    <div class="header-title">
+      <div class="header-icon">
+        <i-feather name="bookmark"></i-feather>
+      </div>
+      <h1>Favoritos</h1>
     </div>
+    <span class="header-count" *ngIf="favoriteMovies.length > 0">
+      {{ favoriteMovies.length }} {{ favoriteMovies.length === 1 ? 'filme' : 'filmes' }}
+    </span>
   </div>
+
+  <favorite-card [isLoading]="isLoading" [movies]="favoriteMovies"></favorite-card>
+
+  <div *ngIf="!isLoading && favoriteMovies.length === 0" class="empty-state">
+    <div class="empty-state__icon">
+      <i-feather name="bookmark"></i-feather>
+    </div>
+    <h3>Nenhum favorito ainda</h3>
+    <p>Filmes que você favoritar aparecerão aqui</p>
+  </div>
+
 </div>

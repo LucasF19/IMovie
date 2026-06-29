@@ -1,6 +1,7 @@
 import { ViewportScroller } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { convertRuntime } from '../../../../shared/formatters/currect-hour';
 import { FavoriteService } from 'src/app/modules/favorites/services/favorites.service';
 
@@ -9,18 +10,27 @@ import { FavoriteService } from 'src/app/modules/favorites/services/favorites.se
   templateUrl: './favorite-card.component.html',
   styleUrl: './favorite-card.component.scss'
 })
-export class FavoriteCardComponent implements OnInit{
+export class FavoriteCardComponent implements OnInit, OnDestroy {
   @Input() movies: any = [];
   @Input() isLoading!: boolean;
 
-  constructor(private router: Router, private viewportScroller: ViewportScroller, private favoriteService: FavoriteService){}
+  private sub!: Subscription;
+
+  constructor(
+    private router: Router,
+    private viewportScroller: ViewportScroller,
+    private favoriteService: FavoriteService
+  ) {}
 
   ngOnInit(): void {
-    this.favoriteService.favoriteMovies.subscribe(movies => {
+    this.sub = this.favoriteService.favoriteMovies.subscribe(movies => {
       this.movies = movies;
     });
-
     this.movies = this.favoriteService.getFavorites();
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 
   onClickMovie(movieId: number): void {

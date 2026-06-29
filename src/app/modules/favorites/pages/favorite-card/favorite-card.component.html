@@ -1,50 +1,66 @@
-<div *ngIf="!isLoading">
-  <div>
-    <div *ngFor="let movie of movies" class="break-words">
-      <div class="flex justify-between items-center">
-        <div class="rounded-[10px] mb-3">
-          <h2 class="text-white text-[20px] pt-2">{{movie.title}}</h2>
-        </div>
-        <div class="p-2 rounded-[10px] bg-[#e72f2f] mb-3" (click)="deleteFavorite(movie)">
-          <i-feather name="trash-2" class="trash-style"></i-feather>
-        </div>
-      </div>
-      <div (click)="onClickMovie(movie.id)" class="rounded-lg mb-5 flex w-full bg-[#252741]">
-        <img
-          [src]="getPosterPath(movie)"
-          class="card-img-top card-movie-large w-[150px] object-cover rounded-l-lg"
-          alt="Movie Poster"
-        />
-        <div class="text-white p-4 flex flex-col">
-          <div class="mb-10">
-            <h2 class="text-[24px] mb-3">{{movie.title}}</h2>
-            <ul class="list-none list-type">
-              <li>Gênero: <strong>{{movie.genres[0].name}}</strong></li>
-              <li>Duração: <strong>{{convertRuntime(movie?.runtime)}}</strong></li>
-              <li>Produção: <strong>{{movie.production_companies[0].name}}</strong></li>
-            </ul>
-          </div>
-          <div>
-            <div class="flex items-center mb-1 text-sm">
-              <i-feather name="users" class="mr-2" style="width: 20px;"></i-feather>
-              <span>{{movie.popularity}} assistiram</span>
-            </div>
-            <div class="flex items-center flex-wrap">
-              <span *ngFor="let star of [2, 4, 6, 8, 10]">
-                <i-feather name="star" class="fill-star mr-1" [class.filled]="star <= movie?.vote_average"></i-feather>
-              </span>
-              <span>( {{ movie?.vote_average.toFixed(1) }} )</span>
-            </div>
-          </div>
-        </div>
-      </div>
+<div *ngIf="isLoading" class="skeletons">
+  <div class="skeleton-card" *ngFor="let s of [1,2,3]">
+    <div class="skeleton-thumb"></div>
+    <div class="skeleton-body">
+      <div class="skeleton-line skeleton-line--title"></div>
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line skeleton-line--short"></div>
     </div>
   </div>
+</div>
 
-  <div
-    *ngIf="isLoading"
-    class="flex items-center justify-center h-52 mr-5 ml-5 max-w-sm bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700"
-  >
-    <span class="sr-only">Loading...</span>
+<div *ngIf="!isLoading" class="cards-list">
+  <div *ngFor="let movie of movies" class="fav-card" (click)="onClickMovie(movie.id)">
+
+    <img
+      class="fav-card__poster"
+      [src]="getPosterPath(movie)"
+      [alt]="movie.title"
+    />
+
+    <div class="fav-card__body">
+      <div class="fav-card__top">
+        <h2 class="fav-card__title">{{ movie.title }}</h2>
+
+        <div class="fav-card__rating">
+          <i-feather name="star" class="star-icon"></i-feather>
+          <span>{{ movie.vote_average.toFixed(1) }}</span>
+        </div>
+      </div>
+
+      <div class="fav-card__meta">
+        <span class="meta-pill" *ngIf="movie.genres?.length">
+          {{ movie.genres[0].name }}
+        </span>
+        <span class="meta-pill">
+          <i-feather name="clock"></i-feather>
+          {{ convertRuntime(movie.runtime) }}
+        </span>
+      </div>
+
+      <p class="fav-card__company" *ngIf="movie.production_companies?.length">
+        {{ movie.production_companies[0].name }}
+      </p>
+
+      <div class="fav-card__footer">
+        <div class="stars">
+          <i-feather
+            name="star"
+            *ngFor="let star of [2,4,6,8,10]"
+            class="fill-star"
+            [class.filled]="star <= movie.vote_average"
+          ></i-feather>
+        </div>
+
+        <button
+          class="btn-delete"
+          (click)="$event.stopPropagation(); deleteFavorite(movie)"
+          aria-label="Remover favorito"
+        >
+          <i-feather name="trash-2"></i-feather>
+        </button>
+      </div>
+    </div>
+
   </div>
 </div>
