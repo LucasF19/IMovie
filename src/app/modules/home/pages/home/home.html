@@ -1,92 +1,113 @@
 <div class="background-content">
-  <div class="mx-5 pt-7 mb-4">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-gray-100 font-light">
-        Olá, <br />
-        <span class="font-bold">{{ nomeUsuario }}</span>
-      </h2>
-      <img
-        class="w-11 h-11 rounded-full"
-        src="../../../../../assets/icon/cat-avatar.png"
-        alt="Rounded avatar"
-      />
-    </div>
-  
-    <form class="w-full">
-      <label
-        for="search"
-        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-        >Pesquisar</label
-      >
-      <div class="relative">
-        <div
-          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-          style="background: bottom"
-        >
-          <svg
-            class="w-4 h-4 text-gray-500 dark:text-gray-400 bg-transparent"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-            />
-          </svg>
+  <div class="mb-2">
+    <section class="hero-banner relative" *ngIf="featuredMovie"
+      [style.background-image]="'url(https://image.tmdb.org/t/p/original' + featuredMovie.backdrop_path +')'">
+      <div class="hero-overlay">
+        <span class="movie-rating">
+          Em destaque
+        </span>
+
+        <div class="items-center mb-2 gap-2">
+          <h1 class="[display:ruby]">{{featuredMovie.title}}
+            <span class="rating-badge flex items-center" *ngIf="featuredMovie?.vote_average">
+              <i-feather name="star" class="fill-star filled" />
+              <span class="text-[12px]">{{ featuredMovie.vote_average.toFixed(1) }}</span>
+            </span>
+          </h1>
         </div>
+
+        <p class="movie-description">
+          {{ featuredMovie.overview }}
+        </p>
+
+        <div class="flex items-center gap-3">
+          <button (click)="onClickMovie(featuredMovie.id)" class="flex items-center gap-2 btn-primary">
+            <span>Acessar</span>
+          </button>
+
+          <button class="btn-icon" (click)="toggleFavorite()">
+            <i-feather name="bookmark" [class.favorited]="favorite"></i-feather>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="hero-gradient"></div>
+    </section>
+
+    <form class="fixed z-[50] w-full px-5 mt-3 top-0">
+      <label for="search" class="sr-only">Buscar filmes</label>
+      <div class="relative">
+    
+        <div class="absolute z-[51] inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <i-feather class="search-icon" name="search"></i-feather>
+        </div>
+    
         <input
           type="search"
           id="search"
-          class="block w-full p-3 ps-10 text-sm text-gray-900 border-none rounded-2xl bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Pesquisar"
+          class="search-input"
+          placeholder="Buscar filmes..."
           [formControl]="searchControl"
+          autocomplete="off"
         />
-        <div *ngIf="searching">
-          <div class="absolute bg-[#1e2035] mr-5 w-full z-10 rounded-[10px] mt-3 p-3 pb-0 max-h-[500px] overflow-scroll">
-            <div *ngIf="!emptyFilter">
-              <div *ngFor="let filtered of filteredMovies" (click)="movieSelectSearch(filtered.id)" class="flex pb-4">
+    
+        <div *ngIf="searching" class="search-dropdown">
+    
+          <ng-container *ngIf="!emptyFilter">
+            <div
+              *ngFor="let filtered of filteredMovies; let last = last"
+              class="search-item"
+              [class.search-item--last]="last"
+              (click)="movieSelectSearch(filtered.id)"
+            >
+              <div class="search-item__thumb">
                 <img
-                  class="w-[70px] mr-4 rounded-2xl object-cover"
-                  [src]="filtered?.backdrop_path ? 'https://image.tmdb.org/t/p/w500' + filtered?.backdrop_path : 'https://via.placeholder.com/150'"
-                  alt="movie">
-                <div class="filter-card">
-                  <h2>{{filtered.title}}</h2>
-                  <h3>{{filtered.release_date | date: 'dd \'de\' MMMM \'de\' yyyy'}}</h3>
-                </div>
+                  [src]="filtered?.backdrop_path
+                    ? 'https://image.tmdb.org/t/p/w300' + filtered?.backdrop_path
+                    : 'https://via.placeholder.com/150'"
+                  [alt]="filtered.title"
+                />
               </div>
+              <div class="search-item__info">
+                <span class="search-item__title">{{ filtered.title }}</span>
+                <span class="search-item__date">
+                  <i-feather name="calendar"></i-feather>
+                  {{ filtered.release_date | date: "yyyy" }}
+                </span>
+              </div>
+              <i-feather class="search-item__arrow" name="chevron-right"></i-feather>
             </div>
-
-            <div *ngIf="emptyFilter" class="text-white flex justify-center m-3 items-center">
-              <i-feather name="Frown" class="mr-3 "></i-feather>
-              <span class="text-lg">Filme não encontrado!</span>
-            </div>
+          </ng-container>
+    
+          <div *ngIf="emptyFilter" class="search-empty">
+            <i-feather name="frown"></i-feather>
+            <span>Nenhum filme encontrado</span>
           </div>
+    
         </div>
       </div>
     </form>
   </div>
-  
-  <div class="cards-movies mt-7 mb-2">
+
+  <div class="cards-movies mb-2">
     <div class="lancamento mb-5">
-      <h2 class="text-gray-100 font-medium mb-2 ml-5 attention-title">Lançamentos</h2>
-      <movie-card size="large" [isLoading]="isLoading" [movies]="releasesMovies"></movie-card>
+      <h2 class="text-gray-100 font-medium mb-2 ml-5 attention-title">Melhores avaliados</h2>
+      <movie-card size="large" [isLoading]="isLoading" [movies]="popularMovies"></movie-card>
     </div>
-  
+
     <div *ngFor="let genre of typesMovie" class="genre mb-7">
       <h2 class="text-gray-100 font-medium mb-2 ml-5 attention-title">{{ genre.name }}</h2>
       <movie-card size="normal" [isLoading]="isLoading" [movies]="genresMovies[genre.name]"></movie-card>
     </div>
   </div>
-  
+
   <footer class="px-5 py-7 bg-black">
     <nav class="flex justify-center mb-5">
-      <div class="icon-round"><a target="_blank" href="https://github.com/LucasF19/IMovie"><i-feather name="github"></i-feather></a></div>
-      <div class="icon-round"><a target="_blank" href="https://www.linkedin.com/in/lucas-maia-55728a233/"><i-feather name="Linkedin"></i-feather></a></div>
+      <div class="icon-round"><a target="_blank" href="https://github.com/LucasF19/IMovie"><i-feather
+            name="github"></i-feather></a></div>
+      <div class="icon-round"><a target="_blank" href="https://www.linkedin.com/in/lucas-maia-55728a233/"><i-feather
+            name="Linkedin"></i-feather></a></div>
     </nav>
     <p class="font-bold mb-1 text-xs">
       Termos de uso - Politica de privacidade

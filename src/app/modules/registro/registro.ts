@@ -12,34 +12,25 @@ export class RegistroPage {
   email: string = '';
   senha: string = '';
   confirmarSenha: string = '';
+  errorMessage: string | null = null;
+  isLoading = false;
+  showSenha = false;
+  showConfirmar = false;
 
   constructor(private authService: AuthService) {}
 
-  registrarUsuario(registroForm: NgForm) {
-    if (registroForm.invalid) {
-      console.error('Erro: Campos inválidos');
-      return;
+  async registrarUsuario(registroForm: NgForm) {
+    if (registroForm.invalid || this.senha !== this.confirmarSenha) return;
+
+    this.errorMessage = null;
+    this.isLoading = true;
+
+    try {
+      await this.authService.registrarUsuario(this.email, this.senha, this.nome);
+    } catch (error: any) {
+      this.errorMessage = 'Erro ao criar conta. Tente novamente.';
+    } finally {
+      this.isLoading = false;
     }
-
-    const { nome, email, senha, confirmarSenha } = registroForm.value;
-
-    if (senha !== confirmarSenha) {
-      console.error('Erro: As senhas não coincidem');
-      return;
-    }
-
-    this.authService
-      .registrarUsuario(email, senha, nome)
-      .then(() => {
-        console.log('Usuário registrado com sucesso!');
-      })
-      .catch((error) => {
-        console.error('Erro ao registrar o usuário:', error);
-      });
-  }
-
-  validarEmail(email: string): boolean {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
   }
 }

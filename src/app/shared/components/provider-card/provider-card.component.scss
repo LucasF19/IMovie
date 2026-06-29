@@ -1,9 +1,31 @@
+.provider-container{
+  display: flex;
+  align-items: center;
+  border-radius: 99px;
+  width: 100%;
+  border: 1px solid #313982;
+  background: #202446;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+}
+
+.provider-container h2 {
+  font-size: 15px;
+  margin-left: 12px;
+}
+
 .modal-content {
   background-color: #292c53;
-  border-radius: 10px;
+  border-radius: 30px;
   color: #e6e6e6;
   max-height: 550px;
   overflow: scroll;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+.modal-content h2 {
+  text-align: center;
 }
 
 .close-button {

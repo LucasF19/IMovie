@@ -4,6 +4,7 @@ import { Genre } from '../../interfaces/home-interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { convertRuntime } from 'src/app/shared/formatters/currect-hour';
 import { FavoriteService } from 'src/app/modules/favorites/services/favorites.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'card-description',
@@ -24,11 +25,18 @@ export class CardDescription implements OnInit {
   providersList: any;
   favorite!: boolean; 
 
+  movieImages: any[] = [];
+  selectedImage: string | null = null;
+  selectedImageIndex: number = 0;
+
+  showTrailer = false;
+
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
     private router: Router,
     private favoriteService: FavoriteService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -40,18 +48,45 @@ export class CardDescription implements OnInit {
     this.movieService.getMovieDetails(id).subscribe({
       next: (data) => {
         const savedFavorites: any = JSON.parse(localStorage.getItem('favoriteMovies') ?? '[]');
-
         this.movieDetails = data;
-        this.favorite = savedFavorites?.filter((item: { id: string; }) => item.id == this.movieId)?.length > 0;
-
+        this.favorite = savedFavorites?.filter((item: { id: string }) => item.id == this.movieId)?.length > 0;
+  
         this.getSimilarMovies(data.genres[0]?.id);
         this.moviesCredit(id);
         this.getComments(id);
+        this.getMovieVideos(id);
+        this.getMovieImages(id);
       },
-      error: () => {
-        this.isLoading = false;
+      error: () => { this.isLoading = false; }
+    });
+  }
+
+  getMovieVideos(movieId: string): void {
+    this.movieService.getMovieVideos(movieId).subscribe({
+      next: (data) => {
+        this.movieDetails.videos = data;
       }
     });
+  }
+  
+  getMovieImages(movieId: string): void {
+    this.movieService.getMovieImages(movieId).subscribe({
+      next: (data) => {
+        this.movieImages = data.backdrops?.slice(0, 12) ?? [];
+      }
+    });
+  }
+  
+  getTrailerUrl(): SafeResourceUrl | null {
+    const trailer = this.movieDetails?.videos?.results?.find(
+      (video: any) => video.site === 'YouTube' && video.type === 'Trailer'
+    );
+
+    if (!trailer?.key) return null;
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://www.youtube.com/embed/${trailer.key}?rel=0`
+    );
   }
 
   getSimilarMovies(genreId: number): void {
@@ -88,6 +123,16 @@ export class CardDescription implements OnInit {
         console.error('Error fetching movie reviews:', error);
       }
     });
+  }
+
+  getTrailerKey(): string | null {
+    const trailer = this.movieDetails?.videos?.results?.find(
+      (video: any) =>
+        video.site === 'YouTube' &&
+        video.type === 'Trailer'
+    );
+  
+    return trailer?.key || null;
   }
 
   truncateContent(content: string, wordLimit: number): string {
@@ -138,5 +183,24 @@ export class CardDescription implements OnInit {
 
   convertRuntime(runtime: number): string {
     return convertRuntime(runtime);
+  }
+
+  openImage(index: number): void {
+    this.selectedImageIndex = index;
+    this.selectedImage = 'https://image.tmdb.org/t/p/original' + this.movieImages[index].file_path;
+  }
+
+  prevImage(): void {
+    this.selectedImageIndex = (this.selectedImageIndex - 1 + this.movieImages.length) % this.movieImages.length;
+    this.selectedImage = 'https://image.tmdb.org/t/p/original' + this.movieImages[this.selectedImageIndex].file_path;
+  }
+
+  nextImage(): void {
+    this.selectedImageIndex = (this.selectedImageIndex + 1) % this.movieImages.length;
+    this.selectedImage = 'https://image.tmdb.org/t/p/original' + this.movieImages[this.selectedImageIndex].file_path;
+  }
+
+  closeImage(): void {
+    this.selectedImage = null;
   }
 }

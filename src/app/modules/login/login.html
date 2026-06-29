@@ -1,23 +1,74 @@
-  <div class="background-content min-h-[100vh] p-[30px]">
-    <div>
-      <h2>iMO<span>VI</span>E</h2>
-    </div>
-    <div class="container">
-      <img
-        src="./assets/pipoca.svg"
-        alt="Balde de pipoca azul"
-      />
-      <div class="inputs-box">
-        <label for="email">Email
-          <input type="email" [(ngModel)]="email" name="email" placeholder="Digite seu email" required class="focus:outline-none focus:ring-0 border-none">
-        </label>
-        <label for="password">Senha
-          <input type="password" [(ngModel)]="password" name="senha" placeholder="Digite sua senha" required class="focus:outline-none focus:ring-0 border-none">
-        </label>
+<div class="login-page">
+
+  <div class="bg-image-layer">
+    <div class="bg-gradient"></div>
+  </div>
+
+  <div class="login-content">
+    <div class="login-header">
+      <div class="brand">
+        <div class="brand__icon">
+          <i-feather name="play"></i-feather>
+        </div>
+        <span class="brand__name">iMovie</span>
       </div>
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-      <button class="BNTlogin border-none" (click)="login()">Entrar</button>
-    
-      <p class="register-link">Não tem conta? <a routerLink="/registro">Cadastre-se</a></p>
+    </div>
+
+    <div class="login-card">
+      <div class="card-header">
+        <h1>Bem-vindo de volta</h1>
+        <p>Entre com sua conta para continuar</p>
+      </div>
+
+      <div class="fields">
+        <div class="field">
+          <label>Email</label>
+          <div class="field__input-wrap">
+            <i-feather name="mail" class="field__icon"></i-feather>
+            <input
+              type="email"
+              [(ngModel)]="email"
+              name="email"
+              placeholder="seu@email.com"
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Senha</label>
+          <div class="field__input-wrap">
+            <i-feather name="lock" class="field__icon"></i-feather>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              [(ngModel)]="password"
+              name="senha"
+              placeholder="••••••••"
+              (keyup.enter)="login()"
+            />
+            <i-feather
+              class="field__toggle"
+              [name]="showPassword ? 'eye-off' : 'eye'"
+              (click)="showPassword = !showPassword"
+            ></i-feather>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-box">
+        <i-feather name="alert-circle"></i-feather>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <button class="btn-primary" (click)="login()" [class.loading]="isLoading">
+        <span *ngIf="!isLoading">Entrar</span>
+        <span *ngIf="isLoading" class="spinner"></span>
+      </button>
+
+      <p class="register-link">
+        Não tem conta?
+        <a routerLink="/registro">Cadastre-se</a>
+      </p>
+
     </div>
   </div>
+</div>

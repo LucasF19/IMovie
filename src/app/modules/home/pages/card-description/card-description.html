@@ -1,62 +1,153 @@
 <div class="movie-detail">
-  <ng-container *ngIf="movieDetails?.videos?.results?.length; else imageTemplate">
-    <iframe
-      width="560"
-      height="315"
-      [src]="'https://www.youtube.com/embed/' + movieDetails?.videos.results[0].key"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-      title="movie"
-    ></iframe>
-  </ng-container>
-  <ng-template #imageTemplate class="image-container">
+  <div class="image-container">
     <div class="relative">
       <img
-        [src]="movieDetails?.poster_path ? 'https://image.tmdb.org/t/p/w500' + movieDetails?.poster_path : 'https://via.placeholder.com/150'"
-        [alt]="movieDetails?.poster_path"
+        [src]="'https://image.tmdb.org/t/p/original' + movieDetails?.backdrop_path"
         class="movie-image"
       />
-    <div class="gradient-overlay"></div>
+      <div class="gradient-overlay"></div>
     </div>
-    <i-feather name="arrow-left" class="mr-1 absolute top-6 left-5 text-[#e0e0e0]" style="width: 40px !important;" (click)="goLastPage()"></i-feather>
-    <i-feather name="x" class="mr-1 absolute top-6 right-3 text-[#e0e0e0]" style="width: 40px !important;" (click)="goHome()"></i-feather>
-  </ng-template>
+    <div class="nav-btn nav-btn--left" (click)="goLastPage()">
+      <i-feather name="arrow-left"></i-feather>
+    </div>
+    
+    <div class="nav-btn nav-btn--right" (click)="goHome()">
+      <i-feather name="x"></i-feather>
+    </div>
+  </div>
+
   
   <div class="py-5">
     <div class="px-5 mb-5 description-content">
       <div class="pb-1 flex items-start justify-between">
-        <h1 class="pr-4">{{ movieDetails?.title }}</h1>
-        <div class="rounded-full border-solid border-2 border-[#e0e0e0]" (click)="toggleFavorite()">
-          <i-feather class="m-4" name="bookmark" style="stroke: #e0e0e0;" [class.favorited]="favorite"></i-feather>
+        <div>
+          <div class="rating">
+            <span *ngFor="let star of [2, 4, 6, 8, 10]">
+              <i-feather name="star" class="fill-star mr-1" [class.filled]="star <= movieDetails?.vote_average"></i-feather>
+            </span>
+            {{ movieDetails?.vote_average.toFixed(1) }}
+          </div>
+          <h1 class="pr-4 mb-3">{{ movieDetails?.title }}</h1>
+          <div class="hero-meta">
+            <span class="meta-pill">
+              <i-feather name="calendar" class="meta-icon"></i-feather>
+              {{ getReleaseYear(movieDetails?.release_date) }}
+            </span>
+            <span class="meta-pill">
+              <i-feather name="clock" class="meta-icon"></i-feather>
+              {{ convertRuntime(movieDetails?.runtime) }}
+            </span>
+            <span class="meta-pill meta-pill--genre" *ngIf="movieDetails?.genres?.length">
+              {{ movieDetails?.genres[0].name }}
+            </span>
+          </div>
+        </div>
+        <div class="btn-icon" (click)="toggleFavorite()">
+          <i-feather name="bookmark" [class.favorited]="favorite"></i-feather>
         </div>
       </div>
-      <p>
-        <strong>{{ getReleaseYear(movieDetails?.release_date) }}</strong> - {{ movieDetails?.genres[0].name }} | {{ convertRuntime(movieDetails?.runtime) }}
-      </p>
-      <div class="rating pt-2 pb-4">
-        <span *ngFor="let star of [2, 4, 6, 8, 10]">
-          <i-feather name="star" class="fill-star mr-1" [class.filled]="star <= movieDetails?.vote_average"></i-feather>
-        </span>
-        {{ movieDetails?.vote_average.toFixed(1) }}
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Sinopse</h2>
+      <p class="synopsis-text">{{ movieDetails?.overview }}</p>
+    </div>
+
+    <div class="section info-grid">
+      <div class="info-chip" *ngIf="movieDetails?.original_language">
+        <span class="info-label">Idioma original</span>
+        <span class="info-value">{{ movieDetails?.original_language | uppercase }}</span>
       </div>
-      <h2 class="mb-1">Sinopse</h2>
-      <p class="text-justify">{{ movieDetails?.overview }}</p>
+      <div class="info-chip" *ngIf="movieDetails?.vote_count">
+        <span class="info-label">Avaliações</span>
+        <span class="info-value">{{ movieDetails?.vote_count | number }}</span>
+      </div>
+      <div class="info-chip" *ngIf="movieDetails?.popularity">
+        <span class="info-label">Popularidade</span>
+        <span class="info-value">{{ movieDetails?.popularity | number:'1.0-0' }}</span>
+      </div>
+      <div class="info-chip" *ngIf="movieDetails?.budget > 0">
+        <span class="info-label">Orçamento</span>
+        <span class="info-value">{{ movieDetails?.budget | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+      <div class="info-chip" *ngIf="movieDetails?.revenue > 0">
+        <span class="info-label">Bilheteria</span>
+        <span class="info-value">{{ movieDetails?.revenue | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+      <div class="info-chip" *ngIf="movieDetails?.production_countries?.length">
+        <span class="info-label">País</span>
+        <span class="info-value">{{ movieDetails?.production_countries[0]?.name }}</span>
+      </div>
     </div>
 
     <div class="pl-5 pr-4 mb-5">
-      <h2 class="mb-4">Gêneros</h2>
+      <h2 class="mb-4 text-[20px]">Gêneros</h2>
       <span class="flex flex-wrap">
-        <span *ngFor="let genre of movieDetails?.genres" class="bg-[#5153D8] flex grow justify-center mb-4 text-white text-sm font-medium me-2 px-3 py-2 rounded-full dark:bg-purple-900 dark:text-purple-300">{{genre.name}}</span>
+        <span *ngFor="let genre of movieDetails?.genres" class="genres-tags me-2">{{genre.name}}</span>
       </span>
     </div>
 
+    <div *ngIf="getTrailerUrl()" class="px-5 my-8">
+      <h2 class="mb-4 text-[20px]">Trailer</h2>
+      <div class="trailer-container">
+        <iframe
+          [src]="getTrailerUrl()"
+          title="Trailer"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+    
+    <div *ngIf="movieImages.length" class="mb-8">
+      <h2 class="pl-5 mb-4 text-[20px]">Galeria</h2>
+      <div class="company-carrosel">
+        <div class="gallery-strip ml-5">
+          <div
+            *ngFor="let image of movieImages; let i = index"
+            class="gallery-thumb"
+            (click)="openImage(i)"
+          >
+            <img
+              [src]="'https://image.tmdb.org/t/p/w300' + image.file_path"
+              [alt]="movieDetails?.title"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="selectedImage" class="lightbox" (click)="closeImage()">
+      <div class="lightbox-content" (click)="$event.stopPropagation()">
+        <button class="lightbox-close" (click)="closeImage()">
+          <i-feather class="!flex" name="x"></i-feather>
+        </button>
+
+        <img class="relative" [src]="selectedImage" alt="Imagem ampliada" />
+    
+        <div class="lightbox-container">
+          <button class="lightbox-arrow left" (click)="prevImage()">
+            <i-feather name="chevron-left"></i-feather>
+          </button>
+  
+          <button class="lightbox-arrow right" (click)="nextImage()">
+            <i-feather name="chevron-right"></i-feather>
+          </button>
+        </div>
+    
+        <span class="lightbox-counter">
+          {{ selectedImageIndex + 1 }} / {{ movieImages.length }}
+        </span>
+      </div>
+    </div>
+
     <div>
-      <h2 class="pl-5 mb-4">Similares</h2>
+      <h2 class="pl-5 mb-4 text-[20px]">Similares</h2>
       <movie-card size="normal" [isLoading]="isLoading" [movies]="similarMovies"></movie-card>
     </div>
 
     <div class="mb-5 my-5">
-      <h2 class="pl-5 mb-4">Elenco</h2>
+      <h2 class="pl-5 mb-4 text-[20px]">Elenco</h2>
       <div class="company-carrosel">
         <div class="companies ml-5 flex justify-around px-2 company-item">
           <div class="company mr-[2.25rem]" *ngFor="let actor of cast">
@@ -69,9 +160,9 @@
     </div>
 
     <div class="mb-5">
-      <h2 class="pl-5 mb-4">Comentários</h2>
+      <h2 class="pl-5 mb-4 text-[20px]">Comentários</h2>
       <div *ngIf="reviews" class="company-carrosel overflow-y-hidden flex pl-4 pr-4">
-        <div *ngFor="let author of reviews" class="comments-card company-item transition-all duration-500 ease-in-out" [ngStyle]="{ height: isExpanded[author.id] ? 'auto' : '350px' }">
+        <div *ngFor="let author of reviews" class="comments-card company-item transition-all duration-500 ease-in-out" [ngStyle]="{ maxHeight: isExpanded[author.id] ? 'auto !important' : 'auto' }">
           <div class="flex justify-between items-start mb-5">
             <div class="flex">
               <img
@@ -88,7 +179,7 @@
               <i-feather name="star" class="fill-star filled ml-1"></i-feather>
             </div>
           </div>
-          <div class="content">
+          <div class="content pb-3">
             <p>
               {{ isExpanded[author.id] ? author.content : truncateContent(author.content, 350) }}
               <span class="text-[#8e90ff] underline" *ngIf="author.content.split('').length > 350" (click)="toggleReadMore(author.id)">
@@ -99,7 +190,7 @@
         </div>
       </div>
 
-      <div [ngStyle]="{'padding': reviews.length > 0 ? '0px' : '20px'}" *ngIf="reviews.length === 0">
+      <div [ngStyle]="{'padding': reviews.length > 0 ? '0px' : '0px 20px'}" *ngIf="reviews.length === 0">
         <div class="comments-card justify-center flex items-center h-40 w-96 ml-5" [ngStyle]="{'margin-left': reviews.length > 0 ? '20px' : '0px', 'width': reviews.length > 0 ? '375px' : '100%'}">
           <i-feather name="frown" class="fill mr-2"></i-feather>
           <span>Não há comentários disponíveis!</span>
@@ -107,10 +198,10 @@
       </div>
     </div>
 
-    <div class="px-5 pb-[80px]">
+    <div class="px-5 pb-[70px]">
       <button (click)="getWatchProviders()" class="bg-[#5153D8] text-lg text-white py-3 px-4 justify-center rounded-3xl border-none w-full inline-flex items-center">
-        <i-feather name="play" class="fill-play mr-2"></i-feather>
-        <span>Onde assistir</span>
+        <i-feather name="play" class="fill-play mr-2 w-10 h-10"></i-feather>
+        <span class="text-[16px]">Onde assistir</span>
       </button>
     </div>
 

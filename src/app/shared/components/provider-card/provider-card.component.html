@@ -3,9 +3,9 @@
   <h2 class="mb-2 text-base">{{typeStreaming}}</h2>
   
   <div *ngFor="let provider of provider">
-    <div class="flex items-center bg-[#313982] rounded-full w-full p-3 mb-4" (click)="whereToWatch(provider.provider_name)">
+    <div class="provider-container" (click)="whereToWatch(provider.provider_name)">
       <img [src]="provider.logo_path ? 'https://image.tmdb.org/t/p/w500' + provider.logo_path : 'https://via.placeholder.com/150'" [alt]="provider.provider_name">
-      <h2 class="ml-3 text-xl">{{provider.provider_name}}</h2>
+      <h2>{{provider.provider_name}}</h2>
     </div>
   </div>
 </div>

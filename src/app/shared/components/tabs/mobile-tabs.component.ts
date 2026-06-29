@@ -17,7 +17,7 @@ export class MobileTabsComponent implements OnInit {
     this.router.events.pipe(
       filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.showTabs = !event.url.includes('/login') && !event.url.includes('/registro') && document.location.pathname !== '/login' && document.location.pathname !== '/registro';
+      this.showTabs = !event.url.includes('/login') && !event.url.includes('/registro') && document.location.pathname !== '/login' && document.location.pathname !== '/registro' && document.location.pathname !== '/';
     });
   }
 

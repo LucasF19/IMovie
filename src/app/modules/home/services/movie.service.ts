@@ -10,13 +10,18 @@ export class MovieService {
   private apiUrl = 'https://api.themoviedb.org/3';
   private language = 'pt-BR';
 
+  private readonly allowedLanguages = 'en|pt';
+  private readonly minVotes = '100';
+
   constructor(private http: HttpClient) { }
 
   getAllMovies(): Observable<any> {
     return this.http.get(`${this.apiUrl}/movie/popular`, {
       params: {
         api_key: this.apiKey,
-        language: this.language
+        language: this.language,
+        with_original_language: this.allowedLanguages,
+        'vote_count.gte': this.minVotes
       }
     });
   }
@@ -26,6 +31,8 @@ export class MovieService {
       params: {
         api_key: this.apiKey,
         language: this.language,
+        with_original_language: this.allowedLanguages,
+        'vote_count.gte': this.minVotes,
         with_genres: genreId.toString()
       }
     });
@@ -39,17 +46,40 @@ export class MovieService {
       params: {
         api_key: this.apiKey,
         language: this.language,
+        with_original_language: this.allowedLanguages,
+        'vote_count.gte': this.minVotes,
         'primary_release_date.gte': oneYearAgo,
         'primary_release_date.lte': today,
       }
     });
   }
 
+  getPopularMovies(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/top_rated`, {
+      params: {
+        api_key: this.apiKey,
+        language: this.language,
+        with_original_language: this.allowedLanguages,
+        'vote_count.gte': this.minVotes
+      }
+    });
+  }
+
+  getMovieVideos(movieId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/${movieId}/videos?api_key=${this.apiKey}&language=${this.language}`);
+  }
+  
+  getMovieImages(movieId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/${movieId}/images?api_key=${this.apiKey}`);
+  }
+
   getTypesList(): Observable<any> {
     return this.http.get(`${this.apiUrl}/genre/movie/list`, {
       params: {
         api_key: this.apiKey,
-        language: this.language
+        language: this.language,
+        with_original_language: this.allowedLanguages,
+        'vote_count.gte': this.minVotes
       }
     });
   }
@@ -58,7 +88,28 @@ export class MovieService {
     return this.http.get(`${this.apiUrl}/movie/${id}`, {
       params: {
         api_key: this.apiKey,
-        language: this.language
+        language: this.language,
+        with_original_language: this.allowedLanguages,
+        'vote_count.gte': this.minVotes
+      }
+    });
+  }
+
+  searchMovies(query: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/search/movie`, {
+      params: {
+        api_key: this.apiKey,
+        language: this.language,
+        query: query,
+        include_adult: 'false'
+      }
+    });
+  }
+
+  getMovieReviews(movieId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/${movieId}/reviews?api_key=${this.apiKey}`, {
+      params: {
+        language: this.language,
       }
     });
   }
@@ -69,10 +120,6 @@ export class MovieService {
 
   getSimilarMovies(movieId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/movie/${movieId}/similar?api_key=${this.apiKey}`);
-  }
-
-  getMovieReviews(movieId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/movie/${movieId}/reviews?api_key=${this.apiKey}`);
   }
 
   getWatchProviders(movieId: string): Observable<any> {

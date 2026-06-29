@@ -1,0 +1,28 @@
+<div class="welcome-page">
+  <div class="bg-layer">
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="cards-grid">
+      <div class="card-ghost" *ngFor="let c of ghostCards" [ngStyle]="c"></div>
+    </div>
+    <div class="bg-fade"></div>
+  </div>
+
+  <div class="content">
+    <div class="brand">
+      <div class="brand__icon">
+        <i-feather name="play"></i-feather>
+      </div>
+      <span class="brand__name">iMovie</span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn--primary" routerLink="/login">Entrar</button>
+    <button class="btn btn--secondary" routerLink="/registro">Criar conta</button>
+    <p class="terms">
+      Ao continuar, você concorda com os
+      <span>Termos de uso</span> e <span>Política de privacidade</span>
+    </p>
+  </div>
+</div>

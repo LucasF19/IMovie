@@ -1,23 +1,26 @@
-<div class="modal">
-    <div class="modal-content py-5">
-      <div class="flex justify-between items-center px-[20px] pb-5">
-        <h2>Onde assistir</h2>
-        <span class="close-button" (click)="onClose()">&times;</span>
+<div class="modal-backdrop" (click)="onClose()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="drag-handle"></div>
+
+    <div class="modal-header px-5 pt-2 pb-4">
+      <h2>Onde assistir</h2>
+      <button class="close-btn" (click)="onClose()">
+        <i-feather name="x"></i-feather>
+      </button>
+    </div>
+
+    <div class="providers-scroll px-5 pb-5">
+      <div *ngIf="!isEmpty">
+        <provider-component [typeStreaming]="'Assinar'" [titleMovie]="movieName" [provider]="providers.flatrate" *ngIf="providers?.flatrate"/>
+        <provider-component [typeStreaming]="'Comprar'" [titleMovie]="movieName" [provider]="providers.buy" *ngIf="providers?.buy"/>
+        <provider-component [typeStreaming]="'Alugar'" [titleMovie]="movieName" [provider]="providers.rent" *ngIf="providers?.rent"/>
       </div>
 
-      <div class="overflow-scroll max-h-[500px] px-[20px] pb-5">
-        <div *ngIf="!isEmpty">
-          <div *ngIf="providers">
-            <provider-component [typeStreaming]="'Assinar'" [titleMovie]="movieName" [provider]="providers.flatrate" *ngIf="providers.flatrate"/>
-            <provider-component [typeStreaming]="'Comprar'" [titleMovie]="movieName" [provider]="providers.buy" *ngIf="providers.buy"/>
-            <provider-component [typeStreaming]="'Alugar'" [titleMovie]="movieName" [provider]="providers.rent" *ngIf="providers.rent"/>
-          </div>
-        </div>
-  
-        <div *ngIf="isEmpty" class="flex items-center justify-center bg-[#313982] rounded-full p-3">
-          <i-feather name="Frown" class="mr-3"></i-feather>
-          <span class="">Plataformas não disponíveis!</span>
-        </div>
+      <div *ngIf="isEmpty" class="empty-state">
+        <i-feather name="frown"></i-feather>
+        <span>Plataformas não disponíveis no Brasil</span>
       </div>
     </div>
+
   </div>
+</div>

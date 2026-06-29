@@ -2,18 +2,20 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 0px 10px;
+  padding: 0px 20px;
 }
 
 .mobile-tabs {
   display: flex;
   justify-content: space-around;
-  padding: 15px 0;
+  padding: 12px 0;
   color: #fff;
   margin-bottom: 10px;
   border-radius: 30px;
-  backdrop-filter: blur(5px);
-  background: #1c1f4d70;
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   text-decoration: none;
 }
 
@@ -31,13 +33,22 @@
   flex-grow: 1;
 }
 
+.mobile-tabs ul li i-feather {
+  width: 20px;
+  height: 20px;
+}
+
+.mobile-tabs ul li span {
+  font-size: 11px;
+}
+
 .mobile-tabs li.active i, .mobile-tabs li.active span {
   // color: #5153D8;
 }
 
 .mobile-tabs i {
   display: block;
-  font-size: 20px;
+  font-size: 15px;
   // color: #888888;
 }
 

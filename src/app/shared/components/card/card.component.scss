@@ -1,26 +1,98 @@
-img {
-  border-radius: 5px;
-  object-fit: cover;
-}
-
-.card-movie img{
-  height: 270px;
-  width: 170px;
-}
-
-.card-movie-large{
-  width: 350px;
-  height: 220px;
-}
-
 .carousel-container {
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+  display: flex;
+  overflow: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 4px;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
 .carousel-item {
   flex: 0 0 auto;
+}
+
+.card-movie {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  cursor: pointer;
+  margin-right: 14px;
+  width: 130px;
+}
+
+.card-movie:first-child {
+  margin-left: 0;
+}
+
+.poster-wrap {
+  position: relative;
+  width: 130px;
+}
+
+.poster-wrap-large {
+  width: 100%;
+}
+
+.card-img-top {
+  border-radius: 14px;
+  background-color: #2e304b;
+  box-shadow: 0 0 0 1px rgba(81, 83, 216, 0.15);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  width: 130px;
+  height: 205px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-img-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(81, 83, 216, 0.4);
+}
+
+.card-movie-large {
+  width: 100%;
+  height: 180px;
+  border-radius: 14px;
+}
+
+.rating-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffd700;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.rating-badge i-feather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 14px;
+  stroke: none;
+  height: 14px;
+  fill: #ffd700;
+}
+
+.card-title {
+  color: #ececec;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 8px 0 0 20px;
+  width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-title-large {
+  width: 230px;
+}
+
+.card-skeleton {
+  background-color: #2e304b;
 }

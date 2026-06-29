@@ -1,100 +1,139 @@
-<div class="background-content min-h-[100vh] p-[30px]">
-  <div>
-    <h2>iMO<span>VI</span>E</h2>
+<div class="registro-page">
+
+  <div class="bg-gradient"></div>
+
+  <div class="registro-header">
+    <div class="brand">
+      <div class="brand__icon">
+        <i-feather name="play"></i-feather>
+      </div>
+      <span class="brand__name">iMovie</span>
+    </div>
   </div>
-  <div class="container">
-    <form
-      class="inputs-box"
-      #registroForm="ngForm"
-      (ngSubmit)="registrarUsuario(registroForm)"
-    >
-      <div class="box">
-        <label for="nome">Nome:</label>
-        <input
-          type="text"
-          [(ngModel)]="nome"
-          name="nome"
-          id="nome"
-          required
-          minlength="8"
-          placeholder="Digite seu nome"
-          #nomeModel="ngModel"
-        />
-        <div
-          *ngIf="nomeModel.invalid && (nomeModel.dirty || nomeModel.touched)"
-          class="error"
-        >
-          <p *ngIf="nomeModel.errors?.['required']">*Nome é obrigatório.</p>
-          <p *ngIf="nomeModel.errors?.['minlength']">
-            *O nome deve ter no mínimo 8 caracteres.
-          </p>
+
+  <div class="registro-content">
+    <div class="registro-card">
+
+      <div class="card-header">
+        <h1>Criar conta</h1>
+        <p>Preencha os dados para se cadastrar</p>
+      </div>
+
+      <form #registroForm="ngForm" (ngSubmit)="registrarUsuario(registroForm)">
+        <div class="fields">
+
+          <div class="field">
+            <label>Nome</label>
+            <div class="field__input-wrap">
+              <i-feather name="user" class="field__icon"></i-feather>
+              <input
+                type="text"
+                [(ngModel)]="nome"
+                name="nome"
+                placeholder="Seu nome completo"
+                required
+                minlength="8"
+                #nomeModel="ngModel"
+              />
+            </div>
+            <div class="field__errors" *ngIf="nomeModel.invalid && (nomeModel.dirty || nomeModel.touched)">
+              <span *ngIf="nomeModel.errors?.['required']">Nome é obrigatório</span>
+              <span *ngIf="nomeModel.errors?.['minlength']">Mínimo de 8 caracteres</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Email</label>
+            <div class="field__input-wrap">
+              <i-feather name="mail" class="field__icon"></i-feather>
+              <input
+                type="email"
+                [(ngModel)]="email"
+                name="email"
+                placeholder="seu@email.com"
+                required
+                #emailModel="ngModel"
+              />
+            </div>
+            <div class="field__errors" *ngIf="emailModel.invalid && (emailModel.dirty || emailModel.touched)">
+              <span *ngIf="emailModel.errors?.['required']">Email é obrigatório</span>
+              <span *ngIf="emailModel.errors?.['email']">Email inválido</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Senha</label>
+            <div class="field__input-wrap">
+              <i-feather name="lock" class="field__icon"></i-feather>
+              <input
+                [type]="showSenha ? 'text' : 'password'"
+                [(ngModel)]="senha"
+                name="senha"
+                placeholder="Mínimo 6 caracteres"
+                required
+                minlength="6"
+                #senhaModel="ngModel"
+              />
+              <i-feather
+                class="field__toggle"
+                [name]="showSenha ? 'eye-off' : 'eye'"
+                (click)="showSenha = !showSenha"
+              ></i-feather>
+            </div>
+            <div class="field__errors" *ngIf="senhaModel.invalid && (senhaModel.dirty || senhaModel.touched)">
+              <span *ngIf="senhaModel.errors?.['required']">Senha é obrigatória</span>
+              <span *ngIf="senhaModel.errors?.['minlength']">Mínimo de 6 caracteres</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Confirmar senha</label>
+            <div class="field__input-wrap">
+              <i-feather name="lock" class="field__icon"></i-feather>
+              <input
+                [type]="showConfirmar ? 'text' : 'password'"
+                [(ngModel)]="confirmarSenha"
+                name="confirmarSenha"
+                placeholder="Repita a senha"
+                required
+                #confirmarSenhaModel="ngModel"
+              />
+              <i-feather
+                class="field__toggle"
+                [name]="showConfirmar ? 'eye-off' : 'eye'"
+                (click)="showConfirmar = !showConfirmar"
+              ></i-feather>
+            </div>
+            <div class="field__errors" *ngIf="confirmarSenhaModel.dirty">
+              <span *ngIf="confirmarSenhaModel.errors?.['required']">Campo obrigatório</span>
+              <span *ngIf="senha !== confirmarSenha && confirmarSenha.length > 0">As senhas não coincidem</span>
+            </div>
+          </div>
+
         </div>
-      </div>
-      <div class="box">
-        <label for="email">Email:</label>
-        <input
-          type="email"
-          [(ngModel)]="email"
-          name="email"
-          id="email"
-          required
-          placeholder="Digite seu email"
-          #emailModel="ngModel"
-        />
-        <div
-          *ngIf="emailModel.invalid && (emailModel.dirty || emailModel.touched)"
-          class="error"
-        >
-          <p *ngIf="emailModel.errors?.['required']">*Email é obrigatório.</p>
-          <p *ngIf="emailModel.errors?.['email']">*Email inválido.</p>
+
+        <div *ngIf="errorMessage" class="error-box">
+          <i-feather name="alert-circle"></i-feather>
+          <span>{{ errorMessage }}</span>
         </div>
-      </div>
-      <div class="box">
-        <label for="senha">Senha:</label>
-        <input
-          type="password"
-          [(ngModel)]="senha"
-          name="senha"
-          id="senha"
-          required
-          minlength="6"
-          placeholder="Digite sua senha"
-          #senhaModel="ngModel"
-        />
-        <div
-          *ngIf="senhaModel.invalid && (senhaModel.dirty || senhaModel.touched)"
+
+        <button
+          type="submit"
+          class="btn-primary"
+          [class.loading]="isLoading"
+          [disabled]="registroForm.invalid || senha !== confirmarSenha"
         >
-          <p *ngIf="senhaModel.errors?.['required']">*Senha é obrigatória.</p>
-          <p *ngIf="senhaModel.errors?.['minlength']">
-            *A senha deve ter no mínimo 6 caracteres.
-          </p>
-        </div>
-      </div>
-      <div class="box">
-        <label for="confirmar_senha">Confirmar Senha:</label>
-        <input
-          type="password"
-          [(ngModel)]="confirmarSenha"
-          name="confirmarSenha"
-          id="confirmarSenha"
-          required
-          placeholder="Confirme sua senha"
-          #confirmarSenhaModel="ngModel"
-        />
-        <p
-          *ngIf="confirmarSenhaModel.invalid && (confirmarSenhaModel.dirty || confirmarSenhaModel.touched)"
-          class="error"
-        >
-          *Confirmar senha é obrigatório.
-        </p>
-        <p *ngIf="senha !== confirmarSenha && confirmarSenhaModel.dirty">
-          *As senhas não coincidem.
-        </p>
-      </div>
-      <button type="submit" [disabled]="registroForm.invalid">Enviar</button>
-    </form>
-    <p class="register-link">
-      Já tem conta? <a routerLink="/login">Faça Login</a>
-    </p>
+          <span *ngIf="!isLoading">Criar conta</span>
+          <span *ngIf="isLoading" class="spinner"></span>
+        </button>
+
+      </form>
+
+      <p class="login-link">
+        Já tem conta? <a routerLink="/login">Faça login</a>
+      </p>
+
+    </div>
   </div>
+
 </div>

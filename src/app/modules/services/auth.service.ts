@@ -20,18 +20,34 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<void> {
     try {
-      await this.afAuth.signInWithEmailAndPassword(email, password);
-      this.router.navigate(['/home']);
-    } catch (error) {
-      console.error('Erro ao fazer login: ', error);
-      throw new Error('Email ou senha inválidos.');
+      await this.afAuth.signInWithEmailAndPassword(
+        email.trim(),
+        password
+      );
+  
+      await this.router.navigate(['/home']);
+    } catch (error: any) {
+      switch (error.code) {
+        case 'auth/invalid-credential':
+          throw new Error('E-mail ou senha inválidos.');
+  
+        case 'auth/too-many-requests':
+          throw new Error('Muitas tentativas de login. Tente novamente mais tarde.');
+  
+        case 'auth/network-request-failed':
+          throw new Error('Verifique sua conexão com a internet.');
+  
+        default:
+          console.error(error);
+          throw new Error('Não foi possível realizar o login.');
+      }
     }
   }
 
   async logout(): Promise<void> {
     try {
       await this.afAuth.signOut();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     } catch (error) {
       console.error('Erro ao fazer logout: ', error);
     }
