@@ -200,17 +200,19 @@ i-feather {
   background: rgba(255, 255, 255, 0.14);
   border: none;
   border-radius: 50%;
-  width: 42px;
-  height: 42px;
+  width: 42px !important;
+  height: 42px !important;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2;
  
   i-feather {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
-    width: 18px;
+    width: 18px !important;
+    height: 18px !important;
     stroke: #ffffff;
   }
 }

@@ -200,6 +200,11 @@ export class CardDescription implements OnInit {
     this.selectedImage = 'https://image.tmdb.org/t/p/original' + this.movieImages[this.selectedImageIndex].file_path;
   }
 
+  getActorSearchUrl(actorName: string): string {
+    const query = encodeURIComponent(actorName);
+    return `https://www.google.com/search?q=${query}`;
+  }
+
   closeImage(): void {
     this.selectedImage = null;
   }

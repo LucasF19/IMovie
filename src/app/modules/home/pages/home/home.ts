@@ -76,6 +76,7 @@ export class AppHome implements OnInit, OnDestroy {
   }
 
   movieSelectSearch(movieId: string){
+    this.viewportScroller.scrollToPosition([0, 0]);
     this.router.navigate(['home/card-description', movieId]);
   }
 
@@ -152,13 +153,19 @@ export class AppHome implements OnInit, OnDestroy {
   }
 
   toggleFavorite() {
-    this.favorite = !this.favorite;
-
-    if (this.favorite) {
-      this.favoriteService.addFavorite(this.featuredMovie);
-    } else {
+    const isFav = this.isFavorite(this.featuredMovie);
+  
+    if (isFav) {
       this.favoriteService.removeFavorite(this.featuredMovie);
+    } else {
+      this.favoriteService.addFavorite(this.featuredMovie);
     }
+  }
+  
+  isFavorite(movie: any): boolean {
+    if (!movie) return false;
+    const favorites = this.favoriteService.getFavorites();
+    return favorites.some((f: any) => f.id === movie.id);
   }
 
   logout() {

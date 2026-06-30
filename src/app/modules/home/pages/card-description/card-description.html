@@ -149,12 +149,24 @@
     <div class="mb-5 my-5">
       <h2 class="pl-5 mb-4 text-[20px]">Elenco</h2>
       <div class="company-carrosel">
-        <div class="companies ml-5 flex justify-around px-2 company-item">
-          <div class="company mr-[2.25rem]" *ngFor="let actor of cast">
-            <img [src]="actor?.profile_path ? 'https://image.tmdb.org/t/p/w500' + actor?.profile_path : 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'" alt="{{ actor?.original_name }}" />
-            <p><strong>{{ actor?.original_name }}</strong></p>
-            <span>{{ truncateContent(actor?.character, 30)  }}</span>
-          </div>
+        <div class="cast-strip ml-5">
+          <a 
+            *ngFor="let actor of cast"
+            class="cast-card"
+            [href]="getActorSearchUrl(actor.original_name)"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="cast-card__photo-wrap">
+              <img
+                [src]="actor?.profile_path ? 'https://image.tmdb.org/t/p/w500' + actor?.profile_path : 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'"
+                [alt]="actor?.original_name"
+                class="cast-card__photo"
+              />
+            </div>
+            <p class="cast-card__name">{{ actor?.original_name }}</p>
+            <span class="cast-card__character">{{ truncateContent(actor?.character, 28) }}</span>
+          </a>
         </div>
       </div>
     </div>

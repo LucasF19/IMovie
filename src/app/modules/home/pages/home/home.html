@@ -28,10 +28,9 @@
           </button>
 
           <button class="btn-icon" (click)="toggleFavorite()">
-            <i-feather name="bookmark" [class.favorited]="favorite"></i-feather>
+            <i-feather name="bookmark" [class.favorited]="isFavorite(featuredMovie)"></i-feather>
           </button>
         </div>
-
       </div>
 
       <div class="hero-gradient"></div>
