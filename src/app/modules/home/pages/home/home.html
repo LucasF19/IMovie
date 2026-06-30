@@ -7,11 +7,13 @@
           Em destaque
         </span>
 
-        <div class="items-center mb-2 gap-2">
-          <h1 class="[display:ruby]">{{featuredMovie.title}}
-            <span class="rating-badge flex items-center" *ngIf="featuredMovie?.vote_average">
-              <i-feather name="star" class="fill-star filled" />
-              <span class="text-[12px]">{{ featuredMovie.vote_average.toFixed(1) }}</span>
+        <div class="items-center mb-2">
+          <h1 class="movie-title">
+            {{ featuredMovie.title }}
+        
+            <span class="rating-badge" *ngIf="featuredMovie?.vote_average">
+              <i-feather name="star" class="fill-star filled"></i-feather>
+              <span>{{ featuredMovie.vote_average.toFixed(1) }}</span>
             </span>
           </h1>
         </div>

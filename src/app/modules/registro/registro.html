@@ -31,6 +31,7 @@
                 [(ngModel)]="nome"
                 name="nome"
                 placeholder="Seu nome completo"
+                autocomplete="off"
                 required
                 minlength="8"
                 #nomeModel="ngModel"
@@ -49,6 +50,7 @@
               <input
                 type="email"
                 [(ngModel)]="email"
+                autocomplete="off"
                 name="email"
                 placeholder="seu@email.com"
                 required

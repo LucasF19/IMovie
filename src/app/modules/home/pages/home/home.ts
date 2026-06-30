@@ -8,6 +8,7 @@ import { debounceTime } from 'rxjs';
 import { Router } from '@angular/router';
 import { convertRuntime } from 'src/app/shared/formatters/currect-hour';
 import { FavoriteService } from 'src/app/modules/favorites/services/favorites.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +35,7 @@ export class AppHome implements OnInit, OnDestroy {
 
   typesMovie: Genre[] = [];
 
-  constructor(private movieService: MovieService, private favoriteService: FavoriteService, private authService: AuthService, private afAuth: AngularFireAuth, private router: Router) { }
+  constructor(private movieService: MovieService, private favoriteService: FavoriteService, private authService: AuthService, private afAuth: AngularFireAuth, private router: Router, private viewportScroller: ViewportScroller) { }
 
   ngOnInit(): void {
     this.carregarNomeUsuario();
@@ -146,6 +147,7 @@ export class AppHome implements OnInit, OnDestroy {
   }
 
   onClickMovie(movieId: number): void {
+    this.viewportScroller.scrollToPosition([0, 0]);
     this.router.navigate(['home/card-description', movieId]);
   }
 
