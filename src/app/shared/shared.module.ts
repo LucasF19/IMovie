@@ -33,7 +33,9 @@ import {
   Mail,
   Lock,
   User,
-  EyeOff
+  EyeOff,
+  AlertCircle,
+  ExternalLink
 } from 'angular-feather/icons';
 
 import { 
@@ -50,6 +52,8 @@ const icons = {
   Heart,
   Github,
   Lock,
+  AlertCircle,
+  ExternalLink,
   Eye,
   EyeOff,
   Mail,

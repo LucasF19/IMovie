@@ -1,29 +1,27 @@
 <div class="movie-detail">
   <div class="image-container">
     <div class="relative">
-      <img
-        [src]="'https://image.tmdb.org/t/p/original' + movieDetails?.backdrop_path"
-        class="movie-image"
-      />
+      <img [src]="'https://image.tmdb.org/t/p/original' + movieDetails?.backdrop_path" class="movie-image" />
       <div class="gradient-overlay"></div>
     </div>
     <div class="nav-btn nav-btn--left" (click)="goLastPage()">
       <i-feather name="arrow-left"></i-feather>
     </div>
-    
+
     <div class="nav-btn nav-btn--right" (click)="goHome()">
       <i-feather name="x"></i-feather>
     </div>
   </div>
 
-  
+
   <div class="py-5">
     <div class="px-5 mb-5 description-content">
       <div class="pb-1 flex items-start justify-between">
         <div>
           <div class="rating">
             <span *ngFor="let star of [2, 4, 6, 8, 10]">
-              <i-feather name="star" class="fill-star mr-1" [class.filled]="star <= movieDetails?.vote_average"></i-feather>
+              <i-feather name="star" class="fill-star mr-1"
+                [class.filled]="star <= movieDetails?.vote_average"></i-feather>
             </span>
             {{ movieDetails?.vote_average.toFixed(1) }}
           </div>
@@ -90,33 +88,23 @@
     <div *ngIf="getTrailerUrl()" class="px-5 my-8">
       <h2 class="mb-4 text-[20px]">Trailer</h2>
       <div class="trailer-container">
-        <iframe
-          [src]="getTrailerUrl()"
-          title="Trailer"
+        <iframe [src]="getTrailerUrl()" title="Trailer"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
+          allowfullscreen></iframe>
       </div>
     </div>
-    
+
     <div *ngIf="movieImages.length" class="mb-8">
       <h2 class="pl-5 mb-4 text-[20px]">Galeria</h2>
       <div class="company-carrosel">
         <div class="gallery-strip ml-5">
-          <div
-            *ngFor="let image of movieImages; let i = index"
-            class="gallery-thumb"
-            (click)="openImage(i)"
-          >
-            <img
-              [src]="'https://image.tmdb.org/t/p/w300' + image.file_path"
-              [alt]="movieDetails?.title"
-            />
+          <div *ngFor="let image of movieImages; let i = index" class="gallery-thumb" (click)="openImage(i)">
+            <img [src]="'https://image.tmdb.org/t/p/w300' + image.file_path" [alt]="movieDetails?.title" />
           </div>
         </div>
       </div>
     </div>
-    
+
     <div *ngIf="selectedImage" class="lightbox" (click)="closeImage()">
       <div class="lightbox-content" (click)="$event.stopPropagation()">
         <button class="lightbox-close" (click)="closeImage()">
@@ -124,17 +112,17 @@
         </button>
 
         <img class="relative" [src]="selectedImage" alt="Imagem ampliada" />
-    
+
         <div class="lightbox-container">
           <button class="lightbox-arrow left" (click)="prevImage()">
             <i-feather name="chevron-left"></i-feather>
           </button>
-  
+
           <button class="lightbox-arrow right" (click)="nextImage()">
             <i-feather name="chevron-right"></i-feather>
           </button>
         </div>
-    
+
         <span class="lightbox-counter">
           {{ selectedImageIndex + 1 }} / {{ movieImages.length }}
         </span>
@@ -150,22 +138,22 @@
       <h2 class="pl-5 mb-4 text-[20px]">Elenco</h2>
       <div class="company-carrosel">
         <div class="cast-strip ml-5">
-          <a 
-            *ngFor="let actor of cast"
-            class="cast-card"
-            [href]="getActorSearchUrl(actor.original_name)"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a *ngFor="let actor of cast" class="cast-card" [href]="getActorSearchUrl(actor.original_name)"
+            target="_blank" rel="noopener noreferrer">
             <div class="cast-card__photo-wrap">
               <img
                 [src]="actor?.profile_path ? 'https://image.tmdb.org/t/p/w500' + actor?.profile_path : 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'"
-                [alt]="actor?.original_name"
-                class="cast-card__photo"
-              />
+                [alt]="actor?.original_name" class="cast-card__photo" />
             </div>
-            <p class="cast-card__name">{{ actor?.original_name }}</p>
-            <span class="cast-card__character">{{ truncateContent(actor?.character, 28) }}</span>
+
+            <div class="cast-card__info">
+              <p class="cast-card__name">{{ actor?.original_name }}</p>
+              <span class="cast-card__character">{{ truncateContent(actor?.character, 22) }}</span>
+              <div class="cast-card__cta">
+                <i-feather name="external-link"></i-feather>
+                <span>Pesquisar</span>
+              </div>
+            </div>
           </a>
         </div>
       </div>
@@ -173,50 +161,58 @@
 
     <div class="mb-5">
       <h2 class="pl-5 mb-4 text-[20px]">Comentários</h2>
-      <div *ngIf="reviews" class="company-carrosel overflow-y-hidden flex pl-4 pr-4">
-        <div *ngFor="let author of reviews" class="comments-card company-item transition-all duration-500 ease-in-out" [ngStyle]="{ maxHeight: isExpanded[author.id] ? 'auto !important' : 'auto' }">
-          <div class="flex justify-between items-start mb-5">
-            <div class="flex">
-              <img
-              class="rounded-3xl"
-              [src]="author?.author_details.avatar_path ? 'https://image.tmdb.org/t/p/w500' + author?.author_details.avatar_path : 'https://cdn-icons-png.flaticon.com/512/4322/4322991.png'"
-              alt="User">
-              <div class="ml-4">
-                <h2 class="text-lg leading-none">{{author.author_details.name === "" ? "User" : author.author_details.name}}</h2>
-                <span class="text-xs leading-none">{{author?.created_at | date: 'dd \'de\' MMMM \'de\' yyyy'}}</span>
-              </div>
+
+      <div *ngIf="reviews.length > 0" class="company-carrosel overflow-y-hidden flex pl-4 pr-4">
+        <div *ngFor="let author of reviews" class="review-card company-item">
+          <div class="review-card__header">
+            <img class="review-card__avatar" [src]="author?.author_details.avatar_path
+                ? 'https://image.tmdb.org/t/p/w500' + author?.author_details.avatar_path
+                : 'https://cdn-icons-png.flaticon.com/512/4322/4322991.png'" alt="User" />
+            <div class="review-card__author">
+              <span class="review-card__name">
+                {{ author.author_details.name === "" ? "Usuário" : author.author_details.name }}
+              </span>
+              <span class="review-card__date">
+                {{ author?.created_at | date: 'dd \'de\' MMMM \'de\' yyyy' }}
+              </span>
             </div>
-            <div class="flex items-center">
-              <span>{{author.author_details.rating && author.author_details.rating + ".0"}}</span>
-              <i-feather name="star" class="fill-star filled ml-1"></i-feather>
+
+            <div class="review-card__rating" *ngIf="author.author_details.rating">
+              <i-feather name="star" class="review-star"></i-feather>
+              <span>{{ author.author_details.rating }}.0</span>
             </div>
           </div>
-          <div class="content pb-3">
-            <p>
-              {{ isExpanded[author.id] ? author.content : truncateContent(author.content, 350) }}
-              <span class="text-[#8e90ff] underline" *ngIf="author.content.split('').length > 350" (click)="toggleReadMore(author.id)">
-                {{ isExpanded[author.id] ? 'Ler menos' : 'Ler mais' }}
-              </span>
+
+          <div class="review-card__divider"></div>
+
+          <div class="review-card__body">
+            <p class="review-card__text">
+              {{ isExpanded[author.id] ? author.content : truncateContent(author.content, 300) }}
+              <button *ngIf="author.content.split('').length > 300" class="review-card__toggle"
+                (click)="toggleReadMore(author.id)">
+                {{ isExpanded[author.id] ? 'Ler menos ↑' : 'Ler mais ↓' }}
+              </button>
             </p>
+
           </div>
         </div>
       </div>
 
-      <div [ngStyle]="{'padding': reviews.length > 0 ? '0px' : '0px 20px'}" *ngIf="reviews.length === 0">
-        <div class="comments-card justify-center flex items-center h-40 w-96 ml-5" [ngStyle]="{'margin-left': reviews.length > 0 ? '20px' : '0px', 'width': reviews.length > 0 ? '375px' : '100%'}">
-          <i-feather name="frown" class="fill mr-2"></i-feather>
-          <span>Não há comentários disponíveis!</span>
-        </div>
+      <div *ngIf="reviews.length === 0" class="review-empty">
+        <i-feather name="message-circle"></i-feather>
+        <span>Nenhuma avaliação disponível</span>
       </div>
     </div>
 
     <div class="px-5 pb-[70px]">
-      <button (click)="getWatchProviders()" class="bg-[#5153D8] text-lg text-white py-3 px-4 justify-center rounded-3xl border-none w-full inline-flex items-center">
+      <button (click)="getWatchProviders()"
+        class="bg-[#5153D8] text-lg text-white py-3 px-4 justify-center rounded-3xl border-none w-full inline-flex items-center">
         <i-feather name="play" class="fill-play mr-2 w-10 h-10"></i-feather>
         <span class="text-[16px]">Onde assistir</span>
       </button>
     </div>
 
-    <watch-modal *ngIf="showModal" [movieName]="movieDetails?.title" [providers]="watchProviders" (close)="onCloseModal()"></watch-modal>
+    <watch-modal *ngIf="showModal" [movieName]="movieDetails?.title" [providers]="watchProviders"
+      (close)="onCloseModal()"></watch-modal>
   </div>
 </div>

@@ -62,19 +62,15 @@ export class AuthService {
     senha: string,
     nome: string
   ): Promise<void> {
-    try {
-      const userCredential = await this.afAuth.createUserWithEmailAndPassword(
-        email,
-        senha
-      );
-      const uid = userCredential.user?.uid;
+    const userCredential = await this.afAuth.createUserWithEmailAndPassword(
+      email,
+      senha
+    );
+    const uid = userCredential.user?.uid;
 
-      await this.firestore.collection('users').doc(uid).set({ nome, email });
+    await this.firestore.collection('users').doc(uid).set({ nome, email });
 
-      this.router.navigate(['/home']);
-    } catch (error) {
-      console.error('Erro ao registrar o usuário:', error);
-    }
+    this.router.navigate(['/home']);
   }
 
   async getNomeUsuario(uid: string): Promise<string | null> {

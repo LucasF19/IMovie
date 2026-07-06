@@ -112,11 +112,11 @@
             </div>
           </div>
 
-        </div>
+          <div *ngIf="errorMessage" class="error-box">
+            <i-feather name="alert-circle"></i-feather>
+            <span>{{ errorMessage }}</span>
+          </div>
 
-        <div *ngIf="errorMessage" class="error-box">
-          <i-feather name="alert-circle"></i-feather>
-          <span>{{ errorMessage }}</span>
         </div>
 
         <button
